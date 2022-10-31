@@ -1,5 +1,8 @@
+from datetime import datetime
+from email.policy import default
+from time import timezone
 from django.db import models
-
+#from django.utils import timezone
 # Create your models here.
 
 
@@ -15,7 +18,7 @@ class Artiste(models.Model):
 class Song(models.Model):
     Artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
-    date_released = models.DateField(max_length=100)
+    date_released = models.DateField(default=datetime.today)
     likes = models.CharField(max_length=100000000)
     artiste_id = models.IntegerField()
 
@@ -24,5 +27,9 @@ class Song(models.Model):
 
 
 class Lyric(models.Model):
-    content = models.CharField(max_length=5000)
+    Artiste = models.ForeignKey(Artiste, on_delete=models.CASCADE)
+    content = models.TextField()
     song_id = models.IntegerField()
+
+    def __str__(self):
+        return self.title
